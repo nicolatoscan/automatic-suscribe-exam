@@ -19,6 +19,7 @@ async function doUrl(url) {
 
         if (finito) {
             browser.close()
+            sendMessage("CLOSING");
             return;
         }
 
@@ -63,7 +64,7 @@ async function doUrl(url) {
 
             const element = await page.$("#app-text_esito_pren_msg");
             const text = await page.evaluate(element => element.textContent, element);
-            if (text.indexOf("PRENOTAZIONE NON EFFETTUATA") < 0) {
+            if (text.indexOf("Prenotazione già effettuata") >= 0) {
                 sendMessage("FATTO");
                 finito = true;
             }
