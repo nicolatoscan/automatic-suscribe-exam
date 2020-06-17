@@ -2,12 +2,12 @@ const puppeteer = require('puppeteer');
 const { Telegraf } = require('telegraf')
 
 require('dotenv').config();
-
+let lastTest = {};
 let finito = false;
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
 async function doUrl(url) {
-    const browser = await puppeteer.launch({ headless: false })
+    const browser = await puppeteer.launch({ headless: true })
     const page = await browser.newPage();
 
     while (true) {
@@ -54,7 +54,8 @@ async function doUrl(url) {
             finito = true;
         }
         lastTest[url] = new Date();
-        await sleep(2000);
+        console.log("TENTATIVO FATTO");
+        await sleep(7000);
 
     }
 
@@ -66,6 +67,7 @@ function sleep(d) {
 }
 
 function sendMessage(text) {
+    console.log(text);
     try {
         bot.telegram.sendMessage(process.env.CHAT_ID, text);
     } catch (err) {
