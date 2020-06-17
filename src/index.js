@@ -7,7 +7,7 @@ let finito = false;
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
 async function doUrl(url) {
-    const browser = await puppeteer.launch({ headless: true })
+    const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] })
     const page = await browser.newPage();
 
     while (true) {
