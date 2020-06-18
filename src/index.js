@@ -71,12 +71,11 @@ async function doUrl(url) {
             }
             lastTest[url] = new Date();
             console.log("TENTATIVO FATTO");
-            await sleep(toWait * 1000);
 
         } catch (err) {
             sendMessage("An error");
         }
-
+        await sleep(toWait * 1000);
     }
 
 };
