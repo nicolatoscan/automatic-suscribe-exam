@@ -6,6 +6,7 @@ dotenv.config();
 
 let lastTest = {};
 let finito = false;
+let toWait = 10;
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
 async function doUrl(url) {
@@ -70,7 +71,7 @@ async function doUrl(url) {
             }
             lastTest[url] = new Date();
             console.log("TENTATIVO FATTO");
-            await sleep(10000);
+            await sleep(toWait * 1000);
 
         } catch (err) {
             sendMessage("An error");
@@ -93,6 +94,25 @@ function sendMessage(text) {
         console.log(err);
     }
 }
+
+bot.command('set', (ctx) => {
+    if (ctx.message.text <= 5)
+    {
+        ctx.reply("Format not valid");
+        return;
+    }
+    
+    let int = +ctx.message.text.substring(4)
+    if (int && int > 1)
+    {
+        toWait = Math.floor(int);
+        ctx.reply("OK " + int);
+    }
+    else
+    {
+        ctx.reply("Number not valid");
+    }
+});
 
 bot.on("message", (ctx) => ctx.reply("Last test:\n" + Object.keys(lastTest).map(k => lastTest[k]).join("\n")))
 bot.launch();
